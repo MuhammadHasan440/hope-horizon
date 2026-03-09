@@ -28,6 +28,7 @@
             --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.3);
             --safe-bottom: env(safe-area-inset-bottom);
+            --nav-height: 80px;
         }
 
         html {
@@ -40,10 +41,9 @@
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
-            padding-bottom: 80px;
         }
 
-        /* Animated Background */
+        /* Background Animation */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -83,13 +83,16 @@
             border: 1px solid var(--glass-border);
         }
 
-        /* Top Navigation */
+        /* Navigation - Fixed Height */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
+            height: var(--nav-height);
             z-index: 1000;
-            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
             transition: all 0.3s ease;
         }
 
@@ -100,6 +103,7 @@
         }
 
         .nav-container {
+            width: 100%;
             max-width: 1400px;
             margin: 0 auto;
             display: flex;
@@ -151,11 +155,136 @@
             align-items: center;
             gap: 0.25rem;
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            transition: transform 0.2s;
         }
 
-        /* Desktop Sidebar Toggle (Hidden on Mobile) */
+        .btn-donate:active {
+            transform: scale(0.95);
+        }
+
+        /* Sidebar Toggle Button - Desktop Only */
         .sidebar-toggle {
-            display: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .sidebar-toggle span {
+            width: 20px;
+            height: 2px;
+            background: currentColor;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .sidebar-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .sidebar-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .sidebar-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Desktop Sidebar - Right Side */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--glass-border);
+            z-index: 999;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 100px 2rem 2rem;
+            overflow-y: auto;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: var(--glass);
+            color: var(--text);
+            transform: translateX(5px);
+        }
+
+        .sidebar-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .sidebar-section h4 {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
         }
 
         /* Mobile Bottom Navigation */
@@ -169,6 +298,7 @@
             border-top: 1px solid var(--glass-border);
             z-index: 1000;
             padding-bottom: var(--safe-bottom);
+            display: none;
         }
 
         .mobile-nav-items {
@@ -183,7 +313,7 @@
             flex-direction: column;
             align-items: center;
             gap: 0.25rem;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem;
             color: var(--text-muted);
             text-decoration: none;
             font-size: 0.7rem;
@@ -201,31 +331,29 @@
             font-size: 1.5rem;
         }
 
+        .mobile-donate-btn {
+            position: relative;
+            top: -20px;
+            background: var(--gradient-1);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.5);
+            border: 3px solid var(--dark);
+            color: white;
+            font-size: 1.5rem;
+        }
+
         /* Mobile Menu Overlay */
-        .mobile-menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
         .mobile-menu {
             position: fixed;
             top: 0;
             right: -100%;
             width: 80%;
-            max-width: 300px;
+            max-width: 320px;
             height: 100%;
             background: var(--dark-light);
             z-index: 1001;
@@ -295,27 +423,33 @@
             padding-left: 1rem;
         }
 
-        /* Hero Section Mobile Optimized */
-        .hero {
+        /* HERO SECTION - FIXED FOR ALL PAGES */
+        .hero-section {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: 6rem 1rem 2rem;
+            padding: calc(var(--nav-height) + 2rem) 1rem 2rem;
             position: relative;
+            margin-top: 0;
         }
 
         .hero-container {
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
         }
 
         .hero-content {
             text-align: center;
+            z-index: 2;
         }
 
         .hero-content h1 {
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             font-weight: 800;
             line-height: 1.2;
             margin-bottom: 1rem;
@@ -329,6 +463,9 @@
             color: var(--text-muted);
             margin-bottom: 2rem;
             line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hero-buttons {
@@ -392,7 +529,32 @@
             margin-top: 0.25rem;
         }
 
-        /* Section Styles Mobile */
+        /* Page Hero - Smaller version for inner pages */
+        .page-hero {
+            padding: calc(var(--nav-height) + 3rem) 1rem 3rem;
+            text-align: center;
+            background: var(--glass);
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 0;
+        }
+
+        .page-hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section Styles */
         section {
             padding: 4rem 1rem;
         }
@@ -422,7 +584,7 @@
             line-height: 1.6;
         }
 
-        /* Feature Cards Mobile */
+        /* Feature Cards */
         .features-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -465,7 +627,7 @@
             line-height: 1.6;
         }
 
-        /* Impact Section Mobile */
+        /* Impact Section */
         .impact-section {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
             border-top: 1px solid var(--glass-border);
@@ -500,15 +662,13 @@
             font-size: 0.875rem;
         }
 
-        /* CTA Section Mobile */
+        /* CTA Section */
         .cta-box {
             background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             padding: 2rem 1.5rem;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
 
         .cta-box h2 {
@@ -530,11 +690,139 @@
             gap: 1rem;
         }
 
-        /* Footer Mobile */
+        /* Forms */
+        .form-container {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Donation Cards */
+        .donation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .donation-card {
+            background: var(--glass);
+            border: 2px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .donation-card:active,
+        .donation-card.selected {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            transform: scale(0.98);
+        }
+
+        .donation-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .donation-amount {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .donation-card p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* QR Section */
+        .qr-section {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            margin-top: 2rem;
+        }
+
+        .qr-code {
+            width: 160px;
+            height: 160px;
+            background: white;
+            margin: 1rem auto;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark);
+            font-weight: 800;
+            font-size: 1.25rem;
+        }
+
+        /* Footer */
         footer {
             background: var(--dark-light);
             border-top: 1px solid var(--glass-border);
-            padding: 3rem 1rem 6rem;
+            padding: 3rem 1rem 2rem;
+            margin-bottom: 0;
         }
 
         .footer-brand {
@@ -628,161 +916,6 @@
             border: 1px solid var(--glass-border);
         }
 
-        /* Page Content Mobile */
-        .page-content {
-            padding-top: 80px;
-            min-height: 100vh;
-        }
-
-        .page-header {
-            text-align: center;
-            padding: 2rem 1rem;
-            background: var(--glass);
-            border-bottom: 1px solid var(--glass-border);
-            margin-bottom: 2rem;
-        }
-
-        .page-header h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #fff, #a5b4fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .page-header p {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
-        /* Forms Mobile */
-        .form-container {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text);
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            color: var(--text);
-            font-family: inherit;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            -webkit-appearance: none;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        /* Donation Cards Mobile */
-        .donation-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .donation-card {
-            background: var(--glass);
-            border: 2px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .donation-card:active,
-        .donation-card.selected {
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-            transform: scale(0.98);
-        }
-
-        .donation-card.selected::after {
-            content: '✓';
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            width: 24px;
-            height: 24px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-
-        .donation-amount {
-            font-size: 2rem;
-            font-weight: 800;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .donation-card p {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-
-        /* QR Code Section */
-        .qr-section {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-            margin-top: 2rem;
-        }
-
-        .qr-code {
-            width: 160px;
-            height: 160px;
-            background: white;
-            margin: 1rem auto;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--dark);
-            font-weight: 800;
-            font-size: 1.25rem;
-        }
-
         /* Utility Classes */
         .hidden { display: none !important; }
         .text-center { text-align: center; }
@@ -801,38 +934,6 @@
             transform: translateY(0);
         }
 
-        /* Tablet Styles */
-        @media (min-width: 768px) {
-            .hero-content h1 {
-                font-size: 3.5rem;
-            }
-
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .impact-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
-            .hero-buttons,
-            .cta-buttons {
-                flex-direction: row;
-                justify-content: center;
-            }
-
-            .btn-primary,
-            .btn-secondary {
-                width: auto;
-            }
-
-            .footer-grid {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
-            }
-        }
-
         /* Desktop Styles */
         @media (min-width: 1024px) {
             body {
@@ -840,38 +941,12 @@
             }
 
             .mobile-nav {
-                display: none;
-            }
-
-            .sidebar-toggle {
-                display: flex;
-                width: 50px;
-                height: 50px;
-                border-radius: 12px;
-                background: var(--glass);
-                border: 1px solid var(--glass-border);
-                color: var(--text);
-                cursor: pointer;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
-                transition: all 0.3s ease;
-            }
-
-            .sidebar-toggle span {
-                width: 24px;
-                height: 2px;
-                background: currentColor;
-                transition: all 0.3s ease;
-                border-radius: 2px;
+                display: none !important;
             }
 
             .hero-container {
-                display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: 4rem;
-                align-items: center;
             }
 
             .hero-content {
@@ -879,7 +954,16 @@
             }
 
             .hero-content h1 {
-                font-size: 4rem;
+                font-size: 3.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: row;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: auto;
             }
 
             .hero-stats {
@@ -892,33 +976,25 @@
                 grid-template-columns: repeat(3, 1fr);
             }
 
-            .footer-grid {
-                grid-template-columns: 2fr 1fr 1fr 1fr;
+            .impact-grid {
+                grid-template-columns: repeat(4, 1fr);
             }
 
-            /* Desktop Sidebar */
-            .sidebar {
-                position: fixed;
-                top: 0;
-                right: -400px;
-                width: 400px;
-                height: 100vh;
-                background: rgba(15, 23, 42, 0.98);
-                backdrop-filter: blur(20px);
-                border-left: 1px solid var(--glass-border);
-                z-index: 999;
-                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                padding: 6rem 2rem 2rem;
-                overflow-y: auto;
-                display: block;
+            .page-hero h1 {
+                font-size: 3rem;
             }
 
-            .sidebar.active {
-                right: 0;
+            .cta-buttons {
+                flex-direction: row;
+                justify-content: center;
             }
 
-            .mobile-menu {
-                display: none;
+            .donation-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            footer {
+                margin-bottom: 0;
             }
         }
 
@@ -926,9 +1002,31 @@
             .sidebar {
                 display: none;
             }
+            
+            .sidebar-toggle {
+                display: none;
+            }
+
+            .mobile-nav {
+                display: block;
+            }
+
+            body {
+                padding-bottom: 80px;
+            }
         }
 
-        /* iPhone Safe Area */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .impact-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Safe Area */
         @supports (padding-bottom: env(safe-area-inset-bottom)) {
             .mobile-nav {
                 padding-bottom: env(safe-area-inset-bottom);
@@ -941,7 +1039,7 @@
     <!-- Background -->
     <div class="bg-animation"></div>
 
-    <!-- Top Navigation -->
+    <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#" class="logo" onclick="showPage('home')">
@@ -950,7 +1048,7 @@
             </a>
             <div class="nav-right">
                 <a href="#" class="btn-donate" onclick="showPage('donate')">♥ Donate</a>
-                <button class="sidebar-toggle" id="menuToggle" onclick="toggleMobileMenu()">
+                <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -959,10 +1057,41 @@
         </div>
     </nav>
 
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="#" onclick="showPage('home')" class="active" data-page="home"><span>🏠</span> Home</a></li>
+            <li><a href="#" onclick="showPage('about')" data-page="about"><span>ℹ️</span> About Us</a></li>
+            <li><a href="#" onclick="showPage('programs')" data-page="programs"><span>🎯</span> Programs</a></li>
+            <li><a href="#" onclick="showPage('impact')" data-page="impact"><span>📊</span> Our Impact</a></li>
+            <li><a href="#" onclick="showPage('volunteer')" data-page="volunteer"><span>🤝</span> Volunteer</a></li>
+            <li><a href="#" onclick="showPage('donate')" data-page="donate"><span>💝</span> Donate</a></li>
+            <li><a href="#" onclick="showPage('contact')" data-page="contact"><span>📧</span> Contact</a></li>
+        </ul>
+        
+        <div class="sidebar-section">
+            <h4>Contact Info</h4>
+            <p style="color: var(--text-muted); margin-bottom: 0.5rem;">📞 (555) 123-HELP</p>
+            <p style="color: var(--text-muted); margin-bottom: 0.5rem;">✉️ info@hopehorizon.org</p>
+            <p style="color: var(--text-muted);">📍 New York, NY</p>
+        </div>
+
+        <div class="sidebar-section">
+            <h4>Follow Us</h4>
+            <div class="social-links" style="justify-content: flex-start; margin-top: 1rem;">
+                <a href="#">f</a>
+                <a href="#">t</a>
+                <a href="#">i</a>
+                <a href="#">in</a>
+            </div>
+        </div>
+    </aside>
 
     <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
     <div class="mobile-menu" id="mobileMenu">
         <button class="mobile-menu-close" onclick="toggleMobileMenu()">×</button>
         <div class="menu-section-title">Menu</div>
@@ -979,40 +1108,16 @@
             <li><a href="#" onclick="showPage('donate')"><span>💝</span> Donate</a></li>
             <li><a href="#" onclick="showPage('contact')"><span>📧</span> Contact</a></li>
         </ul>
-        <div class="menu-divider"></div>
-        <div style="padding: 1rem; color: var(--text-muted); font-size: 0.875rem;">
-            <p style="margin-bottom: 0.5rem;">📞 (555) 123-HELP</p>
-            <p>✉️ info@hopehorizon.org</p>
-        </div>
     </div>
 
-    <!-- Desktop Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <ul class="mobile-menu-list">
-            <li><a href="#" onclick="showPage('home')" class="active" data-page="home"><span>🏠</span> Home</a></li>
-            <li><a href="#" onclick="showPage('about')" data-page="about"><span>ℹ️</span> About Us</a></li>
-            <li><a href="#" onclick="showPage('programs')" data-page="programs"><span>🎯</span> Programs</a></li>
-            <li><a href="#" onclick="showPage('impact')" data-page="impact"><span>📊</span> Our Impact</a></li>
-            <li><a href="#" onclick="showPage('volunteer')" data-page="volunteer"><span>🤝</span> Volunteer</a></li>
-            <li><a href="#" onclick="showPage('donate')" data-page="donate"><span>💝</span> Donate</a></li>
-            <li><a href="#" onclick="showPage('contact')" data-page="contact"><span>📧</span> Contact</a></li>
-        </ul>
-        <div class="menu-divider"></div>
-        <div class="menu-section-title">Contact</div>
-        <div style="padding: 0 1rem; color: var(--text-muted);">
-            <p style="margin-bottom: 0.5rem;">📞 (555) 123-HELP</p>
-            <p style="margin-bottom: 0.5rem;">✉️ info@hopehorizon.org</p>
-            <p>📍 New York, NY</p>
-        </div>
-    </aside>
-
-    <!-- HOME PAGE -->
+    <!-- ==================== HOME PAGE ==================== -->
     <div id="home" class="page">
-        <section class="hero">
+        <!-- Hero Section -->
+        <section class="hero-section">
             <div class="hero-container">
                 <div class="hero-content fade-in">
                     <h1>Building Brighter Tomorrows</h1>
-                    <p>Join us in creating sustainable change. We provide essential resources, education, and support to empower communities.</p>
+                    <p>Join us in creating sustainable change. We provide essential resources, education, and support to empower communities and transform lives.</p>
                     <div class="hero-buttons">
                         <a href="#" class="btn-primary" onclick="showPage('donate')">Start Giving →</a>
                         <a href="#" class="btn-secondary" onclick="showPage('about')">Learn More</a>
@@ -1035,6 +1140,7 @@
             </div>
         </section>
 
+        <!-- Programs Section -->
         <section>
             <div class="container">
                 <div class="section-header fade-in">
@@ -1076,6 +1182,7 @@
             </div>
         </section>
 
+        <!-- Impact Section -->
         <section class="impact-section">
             <div class="container">
                 <div class="section-header fade-in">
@@ -1103,65 +1210,74 @@
             </div>
         </section>
 
-        <section class="cta-section">
+        <!-- CTA Section -->
+        <section>
             <div class="container">
                 <div class="cta-box fade-in">
                     <h2>Ready to Make a Difference?</h2>
                     <p>Join thousands of donors and volunteers creating positive change every day.</p>
                     <div class="cta-buttons">
                         <a href="#" class="btn-primary" onclick="showPage('donate')">Donate Now</a>
-                        <a href="#" class="btn-secondary" onclick="showPage('volunteer')">Volunteer</a>
+                        <a href="#" class="btn-secondary" onclick="showPage('volunteer')">Become a Volunteer</a>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- ABOUT PAGE -->
+    <!-- ==================== ABOUT PAGE ==================== -->
     <div id="about" class="page hidden">
-        <div class="page-header">
+        <!-- Page Hero -->
+        <div class="page-hero">
             <h1>About Us</h1>
-            <p>Our story and mission</p>
+            <p>Our story, mission, and vision for a better world</p>
         </div>
-        <div class="page-content">
+
+        <section>
             <div class="container">
                 <div class="form-container fade-in" style="margin-bottom: 2rem;">
-                    <h2 style="margin-bottom: 1rem; font-size: 1.5rem;">Our Story</h2>
+                    <h2 style="margin-bottom: 1rem; font-size: 1.75rem;">Our Story</h2>
                     <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1rem;">
-                        Founded in 2015, Hope Horizon began as a small community kitchen. Today, we're a comprehensive nonprofit impacting thousands across multiple states.
+                        Founded in 2015, Hope Horizon began as a small community kitchen serving 50 meals a day. Today, we've grown into a comprehensive nonprofit impacting thousands across multiple states.
                     </p>
                     <p style="color: var(--text-muted); line-height: 1.8;">
-                        We combine immediate relief with long-term empowerment, ensuring families thrive and become self-sufficient.
+                        We combine immediate relief with long-term empowerment, ensuring families don't just survive—they thrive and become self-sufficient contributors to their communities.
                     </p>
                 </div>
 
                 <div class="features-grid" style="margin-bottom: 2rem;">
                     <div class="feature-card fade-in">
                         <h3>🌟 Vision</h3>
-                        <p style="color: var(--text-muted);">A world where everyone has access to necessities and opportunities.</p>
+                        <p style="color: var(--text-muted);">A world where everyone has access to necessities and opportunities to reach their full potential.</p>
                     </div>
                     <div class="feature-card fade-in">
                         <h3>💎 Values</h3>
                         <p style="color: var(--text-muted);">Compassion, integrity, innovation, and community-driven solutions.</p>
                     </div>
+                    <div class="feature-card fade-in">
+                        <h3>🚀 Strategy</h3>
+                        <p style="color: var(--text-muted);">Holistic interventions addressing root causes, creating sustainable impact.</p>
+                    </div>
                 </div>
 
                 <div class="form-container fade-in text-center">
-                    <h3 style="margin-bottom: 1rem;">Legal Info</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 1rem;">Registered 501(c)(3) Nonprofit</p>
+                    <h3 style="margin-bottom: 1rem;">Legal Information</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">Registered 501(c)(3) Nonprofit Organization</p>
                     <div class="ein-badge">EIN: 82-9876543</div>
+                    <p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.875rem;">All donations are tax-deductible</p>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
-    <!-- PROGRAMS PAGE -->
+    <!-- ==================== PROGRAMS PAGE ==================== -->
     <div id="programs" class="page hidden">
-        <div class="page-header">
-            <h1>Programs</h1>
-            <p>What we offer</p>
+        <div class="page-hero">
+            <h1>Our Programs</h1>
+            <p>Comprehensive solutions for community empowerment</p>
         </div>
-        <div class="page-content">
+
+        <section>
             <div class="container">
                 <div class="features-grid">
                     <div class="feature-card fade-in">
@@ -1187,20 +1303,31 @@
                         <h3>Housing First</h3>
                         <p style="color: var(--text-muted);">Rapid rehousing and emergency shelter. 1,200+ families housed.</p>
                     </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">💻</div>
+                        <h3>Digital Literacy</h3>
+                        <p style="color: var(--text-muted);">Computer training and internet access bridging the digital divide.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">👶</div>
+                        <h3>Child Care</h3>
+                        <p style="color: var(--text-muted);">After-school programs and daycare for working families.</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
-    <!-- IMPACT PAGE -->
+    <!-- ==================== IMPACT PAGE ==================== -->
     <div id="impact" class="page hidden">
-        <div class="page-header">
-            <h1>Impact</h1>
-            <p>By the numbers</p>
+        <div class="page-hero">
+            <h1>Our Impact</h1>
+            <p>Measurable change in communities we serve</p>
         </div>
-        <div class="page-content">
+
+        <section class="impact-section" style="border: none;">
             <div class="container">
-                <div class="impact-grid" style="margin-bottom: 2rem;">
+                <div class="impact-grid" style="margin-bottom: 3rem;">
                     <div class="impact-card fade-in">
                         <div class="impact-number counter" data-target="500000">0</div>
                         <div class="impact-label">Total Meals</div>
@@ -1223,24 +1350,25 @@
                     <h3 style="text-align: center; margin-bottom: 1.5rem;">Success Stories</h3>
                     <div style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 16px; margin-bottom: 1rem;">
                         <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1rem; line-height: 1.6;">"Hope Horizon gave us dignity and a path forward. Today I have a job and my own apartment."</p>
-                        <p style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">- Sarah M.</p>
+                        <p style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">- Sarah M., Program Graduate</p>
                     </div>
                     <div style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 16px;">
                         <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1rem; line-height: 1.6;">"The education program changed my daughter's life. She's now the first in our family to attend college."</p>
-                        <p style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">- James T.</p>
+                        <p style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">- James T., Parent</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
-    <!-- VOLUNTEER PAGE -->
+    <!-- ==================== VOLUNTEER PAGE ==================== -->
     <div id="volunteer" class="page hidden">
-        <div class="page-header">
-            <h1>Volunteer</h1>
-            <p>Join our team</p>
+        <div class="page-hero">
+            <h1>Volunteer With Us</h1>
+            <p>Your time can change lives</p>
         </div>
-        <div class="page-content">
+
+        <section>
             <div class="container">
                 <div class="form-container fade-in" style="margin-bottom: 2rem;">
                     <h3 style="margin-bottom: 1.5rem;">Why Volunteer?</h3>
@@ -1248,7 +1376,7 @@
                         <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 12px;">
                             <span style="font-size: 1.5rem;">🤝</span>
                             <div>
-                                <h4 style="margin-bottom: 0.25rem;">Make Impact</h4>
+                                <h4 style="margin-bottom: 0.25rem;">Make Real Impact</h4>
                                 <p style="color: var(--text-muted); font-size: 0.9rem;">See the difference you make daily</p>
                             </div>
                         </div>
@@ -1257,6 +1385,13 @@
                             <div>
                                 <h4 style="margin-bottom: 0.25rem;">Learn Skills</h4>
                                 <p style="color: var(--text-muted); font-size: 0.9rem;">Gain valuable experience</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                            <span style="font-size: 1.5rem;">🌟</span>
+                            <div>
+                                <h4 style="margin-bottom: 0.25rem;">Join Community</h4>
+                                <p style="color: var(--text-muted); font-size: 0.9rem;">Connect with like-minded people</p>
                             </div>
                         </div>
                     </div>
@@ -1294,16 +1429,17 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
-    <!-- DONATE PAGE -->
+    <!-- ==================== DONATE PAGE ==================== -->
     <div id="donate" class="page hidden">
-        <div class="page-header">
-            <h1>Donate</h1>
-            <p>Every dollar counts</p>
+        <div class="page-hero">
+            <h1>Make a Donation</h1>
+            <p>Every dollar creates lasting change</p>
         </div>
-        <div class="page-content">
+
+        <section>
             <div class="container">
                 <div class="donation-grid fade-in">
                     <div class="donation-card" onclick="selectDonation(this, 25)">
@@ -1344,16 +1480,17 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
-    <!-- CONTACT PAGE -->
+    <!-- ==================== CONTACT PAGE ==================== -->
     <div id="contact" class="page hidden">
-        <div class="page-header">
-            <h1>Contact</h1>
-            <p>Get in touch</p>
+        <div class="page-hero">
+            <h1>Contact Us</h1>
+            <p>We'd love to hear from you</p>
         </div>
-        <div class="page-content">
+
+        <section>
             <div class="container">
                 <div class="form-container fade-in" style="margin-bottom: 2rem;">
                     <div style="display: grid; gap: 1.5rem;">
@@ -1393,6 +1530,15 @@
                             <input type="email" required>
                         </div>
                         <div class="form-group">
+                            <label>Subject</label>
+                            <select>
+                                <option>General Inquiry</option>
+                                <option>Donation Question</option>
+                                <option>Volunteering</option>
+                                <option>Partnership</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Message *</label>
                             <textarea required rows="4"></textarea>
                         </div>
@@ -1400,7 +1546,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
     <!-- Mobile Bottom Navigation -->
@@ -1414,8 +1560,8 @@
                 <span>🎯</span>
                 <span>Programs</span>
             </a>
-            <a href="#" class="mobile-nav-item" onclick="showPage('donate')" data-nav="donate" style="position: relative; top: -20px; background: var(--gradient-1); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.5); border: 3px solid var(--dark);">
-                <span style="font-size: 1.75rem;">♥</span>
+            <a href="#" class="mobile-nav-item mobile-donate-btn" onclick="showPage('donate')" data-nav="donate">
+                <span>♥</span>
             </a>
             <a href="#" class="mobile-nav-item" onclick="showPage('impact')" data-nav="impact">
                 <span>📊</span>
@@ -1442,7 +1588,7 @@
                 </div>
             </div>
             
-            <div style="margin-bottom: 2rem;">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-bottom: 2rem;">
                 <div class="footer-links">
                     <h4>Quick Links</h4>
                     <ul>
@@ -1451,20 +1597,40 @@
                         <li><a href="#" onclick="showPage('volunteer')">Volunteer</a></li>
                     </ul>
                 </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">EIN: 82-9876543</a></li>
+                    </ul>
+                </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2024 Hope Horizon</p>
-                <p style="margin-top: 0.5rem;">EIN: 82-9876543</p>
+                <p>&copy; 2024 Hope Horizon. All rights reserved.</p>
+                <p style="margin-top: 0.5rem;">Made with ♥ for humanity</p>
             </div>
         </div>
     </footer>
 
     <script>
+        // Sidebar Toggle for Desktop
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const toggle = document.getElementById('sidebarToggle');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
         // Mobile Menu Toggle
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu');
             const overlay = document.getElementById('mobileOverlay');
+            
             menu.classList.toggle('active');
             overlay.classList.toggle('active');
         }
@@ -1482,6 +1648,14 @@
                 selectedPage.classList.remove('hidden');
             }
             
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageName) {
+                    link.classList.add('active');
+                }
+            });
+            
             // Update mobile nav active state
             document.querySelectorAll('.mobile-nav-item').forEach(item => {
                 item.classList.remove('active');
@@ -1490,13 +1664,15 @@
                 }
             });
             
-            // Close menus
+            // Close all menus
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+            document.getElementById('sidebarToggle').classList.remove('active');
             document.getElementById('mobileMenu').classList.remove('active');
             document.getElementById('mobileOverlay').classList.remove('active');
-            document.getElementById('sidebar')?.classList.remove('active');
             
             // Scroll to top
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             
             // Reinitialize animations
             setTimeout(() => {
@@ -1583,7 +1759,7 @@
             e.target.reset();
         }
 
-        // Navbar Scroll
+        // Navbar Scroll Effect
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
@@ -1599,15 +1775,20 @@
             initCounters();
         });
 
-        // Prevent zoom on double tap
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', (e) => {
-            const now = Date.now();
-            if (now - lastTouchEnd <= 300) {
-                e.preventDefault();
+        // Close sidebar on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const sidebar = document.getElementById('sidebar');
+                const mobileMenu = document.getElementById('mobileMenu');
+                
+                if (sidebar.classList.contains('active')) {
+                    toggleSidebar();
+                }
+                if (mobileMenu.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
             }
-            lastTouchEnd = now;
-        }, false);
+        });
     </script>
 </body>
 </html>
