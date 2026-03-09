@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Hope Horizon - Empowering Communities</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -162,7 +163,7 @@
             transform: scale(0.95);
         }
 
-        /* Sidebar Toggle Button - Desktop Only */
+        /* Enhanced Sidebar Toggle Button */
         .sidebar-toggle {
             width: 44px;
             height: 44px;
@@ -177,11 +178,29 @@
             justify-content: center;
             gap: 5px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .sidebar-toggle:hover::before {
+            left: 100%;
         }
 
         .sidebar-toggle:hover {
             background: var(--primary);
             transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
         }
 
         .sidebar-toggle span {
@@ -204,21 +223,22 @@
             transform: rotate(-45deg) translate(5px, -5px);
         }
 
-        /* Desktop Sidebar - Right Side */
+        /* Enhanced Desktop Sidebar */
         .sidebar {
             position: fixed;
             top: 0;
-            right: -400px;
-            width: 380px;
+            right: -420px;
+            width: 400px;
             height: 100vh;
-            background: rgba(15, 23, 42, 0.98);
-            backdrop-filter: blur(20px);
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border-left: 1px solid var(--glass-border);
             z-index: 999;
             transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 100px 2rem 2rem;
+            padding: 0;
             overflow-y: auto;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            box-shadow: -10px 0 50px rgba(0,0,0,0.5);
         }
 
         .sidebar.active {
@@ -231,7 +251,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
             z-index: 998;
             opacity: 0;
             visibility: hidden;
@@ -242,6 +262,48 @@
         .sidebar-overlay.active {
             opacity: 1;
             visibility: visible;
+        }
+
+        .sidebar-header {
+          margin-top: 80px;
+            padding: 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+        }
+
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sidebar-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .sidebar-profile-info h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+            background: linear-gradient(to right, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-profile-info p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .sidebar-content {
+            padding: 1.5rem;
         }
 
         .sidebar-menu {
@@ -262,8 +324,22 @@
             text-decoration: none;
             border-radius: 12px;
             transition: all 0.3s ease;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-menu a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--gradient-1);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
         }
 
         .sidebar-menu a:hover,
@@ -271,6 +347,21 @@
             background: var(--glass);
             color: var(--text);
             transform: translateX(5px);
+        }
+
+        .sidebar-menu a.active::before,
+        .sidebar-menu a:hover::before {
+            transform: scaleY(1);
+        }
+
+        .sidebar-menu a i {
+            width: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-menu a.active i {
+            color: var(--primary);
         }
 
         .sidebar-section {
@@ -283,8 +374,97 @@
             color: var(--text-muted);
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar-section h4::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--glass-border);
+        }
+
+        .sidebar-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .sidebar-contact-item i {
+            width: 32px;
+            height: 32px;
+            background: var(--glass);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 0.875rem;
+        }
+
+        .sidebar-social {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .sidebar-social a {
+            width: 44px;
+            height: 44px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-social a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            margin-top: 2rem;
+            background: rgba(0,0,0,0.2);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .sidebar-donate-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .sidebar-donate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
         }
 
         /* Mobile Bottom Navigation */
@@ -327,8 +507,8 @@
             background: rgba(99, 102, 241, 0.1);
         }
 
-        .mobile-nav-item span:first-child {
-            font-size: 1.5rem;
+        .mobile-nav-item i {
+            font-size: 1.25rem;
         }
 
         .mobile-donate-btn {
@@ -344,47 +524,100 @@
             box-shadow: 0 4px 20px rgba(99, 102, 241, 0.5);
             border: 3px solid var(--dark);
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
         }
 
         /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
         .mobile-menu {
             position: fixed;
             top: 0;
             right: -100%;
-            width: 80%;
-            max-width: 320px;
+            width: 85%;
+            max-width: 360px;
             height: 100%;
-            background: var(--dark-light);
+            background: linear-gradient(180deg, var(--dark-light) 0%, var(--dark) 100%);
             z-index: 1001;
-            transition: right 0.3s ease;
-            padding: 5rem 1.5rem 2rem;
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0;
             overflow-y: auto;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.5);
         }
 
         .mobile-menu.active {
             right: 0;
         }
 
+        .mobile-menu-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-menu-header h3 {
+            font-size: 1.25rem;
+            background: linear-gradient(to right, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .mobile-menu-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
             width: 40px;
             height: 40px;
             background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 10px;
             color: var(--text);
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-close:hover {
+            background: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .mobile-menu-content {
+            padding: 1.5rem;
+        }
+
+        .menu-section-title {
+            color: var(--primary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+            font-weight: 600;
         }
 
         .mobile-menu-list {
             list-style: none;
+            margin-bottom: 1.5rem;
         }
 
         .mobile-menu-list li {
@@ -399,13 +632,21 @@
             color: var(--text);
             text-decoration: none;
             border-radius: 12px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
 
-        .mobile-menu-list a:active {
-            background: var(--primary);
-            transform: scale(0.98);
+        .mobile-menu-list a i {
+            width: 24px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .mobile-menu-list a:active,
+        .mobile-menu-list a:hover {
+            background: var(--glass);
+            transform: translateX(5px);
         }
 
         .menu-divider {
@@ -414,16 +655,7 @@
             margin: 1.5rem 0;
         }
 
-        .menu-section-title {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-            padding-left: 1rem;
-        }
-
-        /* HERO SECTION - FIXED FOR ALL PAGES */
+        /* HERO SECTION */
         .hero-section {
             min-height: 100vh;
             display: flex;
@@ -497,6 +729,11 @@
             box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
         }
 
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
+        }
+
         .btn-primary:active {
             transform: scale(0.98);
         }
@@ -505,6 +742,11 @@
             background: transparent;
             color: var(--text);
             border: 2px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass);
+            border-color: var(--primary);
         }
 
         .hero-stats {
@@ -529,7 +771,7 @@
             margin-top: 0.25rem;
         }
 
-        /* Page Hero - Smaller version for inner pages */
+        /* Page Hero */
         .page-hero {
             padding: calc(var(--nav-height) + 3rem) 1rem 3rem;
             text-align: center;
@@ -599,6 +841,12 @@
             transition: all 0.3s ease;
         }
 
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-color: var(--primary);
+        }
+
         .feature-card:active {
             transform: scale(0.98);
             background: rgba(99, 102, 241, 0.1);
@@ -612,8 +860,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             margin-bottom: 1rem;
+            color: white;
         }
 
         .feature-card h3 {
@@ -646,6 +895,12 @@
             background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .impact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .impact-number {
@@ -757,6 +1012,11 @@
             position: relative;
         }
 
+        .donation-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
         .donation-card:active,
         .donation-card.selected {
             border-color: var(--primary);
@@ -765,7 +1025,9 @@
         }
 
         .donation-card.selected::after {
-            content: '✓';
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
             position: absolute;
             top: -8px;
             right: -8px;
@@ -777,7 +1039,7 @@
             align-items: center;
             justify-content: center;
             font-size: 0.75rem;
-            font-weight: bold;
+            color: white;
         }
 
         .donation-amount {
@@ -862,12 +1124,17 @@
             justify-content: center;
             color: var(--text);
             text-decoration: none;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
         }
 
-        .social-links a:active {
+        .social-links a:hover {
             background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .social-links a:active {
             transform: scale(0.9);
         }
 
@@ -895,6 +1162,12 @@
             font-size: 0.9rem;
             display: block;
             padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
         }
 
         .footer-bottom {
@@ -1032,6 +1305,20 @@
                 padding-bottom: env(safe-area-inset-bottom);
             }
         }
+
+        /* Pulse Animation for Donate Button */
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+        }
+
+        .btn-donate {
+            animation: pulse 2s infinite;
+        }
+
+        .btn-donate:hover {
+            animation: none;
+        }
     </style>
 </head>
 <body>
@@ -1043,11 +1330,13 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#" class="logo" onclick="showPage('home')">
-                <div class="logo-icon">✦</div>
+                <div class="logo-icon"><i class="fas fa-sun"></i></div>
                 Hope Horizon
             </a>
             <div class="nav-right">
-                <a href="#" class="btn-donate" onclick="showPage('donate')">♥ Donate</a>
+                <a href="#" class="btn-donate" onclick="showPage('donate')">
+                    <i class="fas fa-heart"></i> Donate
+                </a>
                 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
                     <span></span>
                     <span></span>
@@ -1060,54 +1349,119 @@
     <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-    <!-- Desktop Sidebar -->
+    <!-- Enhanced Desktop Sidebar -->
     <aside class="sidebar" id="sidebar">
-        <ul class="sidebar-menu">
-            <li><a href="#" onclick="showPage('home')" class="active" data-page="home"><span>🏠</span> Home</a></li>
-            <li><a href="#" onclick="showPage('about')" data-page="about"><span>ℹ️</span> About Us</a></li>
-            <li><a href="#" onclick="showPage('programs')" data-page="programs"><span>🎯</span> Programs</a></li>
-            <li><a href="#" onclick="showPage('impact')" data-page="impact"><span>📊</span> Our Impact</a></li>
-            <li><a href="#" onclick="showPage('volunteer')" data-page="volunteer"><span>🤝</span> Volunteer</a></li>
-            <li><a href="#" onclick="showPage('donate')" data-page="donate"><span>💝</span> Donate</a></li>
-            <li><a href="#" onclick="showPage('contact')" data-page="contact"><span>📧</span> Contact</a></li>
-        </ul>
-        
-        <div class="sidebar-section">
-            <h4>Contact Info</h4>
-            <p style="color: var(--text-muted); margin-bottom: 0.5rem;">📞 (555) 123-HELP</p>
-            <p style="color: var(--text-muted); margin-bottom: 0.5rem;">✉️ info@hopehorizon.org</p>
-            <p style="color: var(--text-muted);">📍 New York, NY</p>
+        <div class="sidebar-header">
+            <div class="sidebar-profile">
+                <div class="sidebar-avatar">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <div class="sidebar-profile-info">
+                    <h3>Hope Horizon</h3>
+                    <p>Empowering Communities</p>
+                </div>
+            </div>
         </div>
 
-        <div class="sidebar-section">
-            <h4>Follow Us</h4>
-            <div class="social-links" style="justify-content: flex-start; margin-top: 1rem;">
-                <a href="#">f</a>
-                <a href="#">t</a>
-                <a href="#">i</a>
-                <a href="#">in</a>
+        <div class="sidebar-content">
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="showPage('home')" class="active" data-page="home">
+                    <i class="fas fa-home"></i> Home
+                </a></li>
+                <li><a href="#" onclick="showPage('about')" data-page="about">
+                    <i class="fas fa-info-circle"></i> About Us
+                </a></li>
+                <li><a href="#" onclick="showPage('programs')" data-page="programs">
+                    <i class="fas fa-bullseye"></i> Programs
+                </a></li>
+                <li><a href="#" onclick="showPage('impact')" data-page="impact">
+                    <i class="fas fa-chart-line"></i> Our Impact
+                </a></li>
+                <li><a href="#" onclick="showPage('volunteer')" data-page="volunteer">
+                    <i class="fas fa-handshake"></i> Volunteer
+                </a></li>
+                <li><a href="#" onclick="showPage('donate')" data-page="donate">
+                    <i class="fas fa-donate"></i> Donate
+                </a></li>
+                <li><a href="#" onclick="showPage('contact')" data-page="contact">
+                    <i class="fas fa-envelope"></i> Contact
+                </a></li>
+            </ul>
+            
+            <div class="sidebar-section">
+                <h4>Contact Info</h4>
+                <div class="sidebar-contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>(555) 123-HELP</span>
+                </div>
+                <div class="sidebar-contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>info@hopehorizon.org</span>
+                </div>
+                <div class="sidebar-contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>New York, NY</span>
+                </div>
             </div>
+
+            <div class="sidebar-section">
+                <h4>Follow Us</h4>
+                <div class="sidebar-social">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="sidebar-donate-btn" onclick="showPage('donate')">
+                <i class="fas fa-heart"></i> Donate Now
+            </button>
         </div>
     </aside>
 
-    <!-- Mobile Menu -->
+    <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+    
+    <!-- Enhanced Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-        <button class="mobile-menu-close" onclick="toggleMobileMenu()">×</button>
-        <div class="menu-section-title">Menu</div>
-        <ul class="mobile-menu-list">
-            <li><a href="#" onclick="showPage('home')"><span>🏠</span> Home</a></li>
-            <li><a href="#" onclick="showPage('about')"><span>ℹ️</span> About Us</a></li>
-            <li><a href="#" onclick="showPage('programs')"><span>🎯</span> Programs</a></li>
-            <li><a href="#" onclick="showPage('impact')"><span>📊</span> Our Impact</a></li>
-        </ul>
-        <div class="menu-divider"></div>
-        <div class="menu-section-title">Get Involved</div>
-        <ul class="mobile-menu-list">
-            <li><a href="#" onclick="showPage('volunteer')"><span>🤝</span> Volunteer</a></li>
-            <li><a href="#" onclick="showPage('donate')"><span>💝</span> Donate</a></li>
-            <li><a href="#" onclick="showPage('contact')"><span>📧</span> Contact</a></li>
-        </ul>
+        <div class="mobile-menu-header">
+            <h3><i class="fas fa-sun" style="color: var(--primary); margin-right: 0.5rem;"></i>Menu</h3>
+            <button class="mobile-menu-close" onclick="toggleMobileMenu()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="mobile-menu-content">
+            <div class="menu-section-title">Main Menu</div>
+            <ul class="mobile-menu-list">
+                <li><a href="#" onclick="showPage('home')"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" onclick="showPage('about')"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li><a href="#" onclick="showPage('programs')"><i class="fas fa-bullseye"></i> Programs</a></li>
+                <li><a href="#" onclick="showPage('impact')"><i class="fas fa-chart-line"></i> Our Impact</a></li>
+            </ul>
+            
+            <div class="menu-divider"></div>
+            
+            <div class="menu-section-title">Get Involved</div>
+            <ul class="mobile-menu-list">
+                <li><a href="#" onclick="showPage('volunteer')"><i class="fas fa-handshake"></i> Volunteer</a></li>
+                <li><a href="#" onclick="showPage('donate')"><i class="fas fa-donate"></i> Donate</a></li>
+                <li><a href="#" onclick="showPage('contact')"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+
+            <div class="menu-divider"></div>
+            
+            <div class="menu-section-title">Connect</div>
+            <div class="sidebar-social" style="margin-top: 1rem;">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
     </div>
 
     <!-- ==================== HOME PAGE ==================== -->
@@ -1119,8 +1473,12 @@
                     <h1>Building Brighter Tomorrows</h1>
                     <p>Join us in creating sustainable change. We provide essential resources, education, and support to empower communities and transform lives.</p>
                     <div class="hero-buttons">
-                        <a href="#" class="btn-primary" onclick="showPage('donate')">Start Giving →</a>
-                        <a href="#" class="btn-secondary" onclick="showPage('about')">Learn More</a>
+                        <a href="#" class="btn-primary" onclick="showPage('donate')">
+                            Start Giving <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#" class="btn-secondary" onclick="showPage('about')">
+                            <i class="fas fa-play-circle"></i> Learn More
+                        </a>
                     </div>
                     <div class="hero-stats">
                         <div class="stat-item">
@@ -1149,32 +1507,32 @@
                 </div>
                 <div class="features-grid">
                     <div class="feature-card fade-in">
-                        <div class="feature-icon">🥘</div>
+                        <div class="feature-icon"><i class="fas fa-utensils"></i></div>
                         <h3>Food Security</h3>
                         <p>Daily meals and food banks ensuring no one goes hungry in our community.</p>
                     </div>
                     <div class="feature-card fade-in">
-                        <div class="feature-icon">📖</div>
+                        <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
                         <h3>Education</h3>
                         <p>Scholarships and vocational training breaking the cycle of poverty.</p>
                     </div>
                     <div class="feature-card fade-in">
-                        <div class="feature-icon">🏠</div>
+                        <div class="feature-icon"><i class="fas fa-home"></i></div>
                         <h3>Housing Support</h3>
                         <p>Emergency shelter and rental assistance for families in need.</p>
                     </div>
                     <div class="feature-card fade-in">
-                        <div class="feature-icon">⚕️</div>
+                        <div class="feature-icon"><i class="fas fa-heartbeat"></i></div>
                         <h3>Health Care</h3>
                         <p>Free clinics and mental health support for underserved communities.</p>
                     </div>
                     <div class="feature-card fade-in">
-                        <div class="feature-icon">💼</div>
+                        <div class="feature-icon"><i class="fas fa-briefcase"></i></div>
                         <h3>Employment</h3>
                         <p>Job placement and financial literacy for self-sufficiency.</p>
                     </div>
                     <div class="feature-card fade-in">
-                        <div class="feature-icon">🌱</div>
+                        <div class="feature-icon"><i class="fas fa-leaf"></i></div>
                         <h3>Sustainability</h3>
                         <p>Community gardens and green initiatives for future generations.</p>
                     </div>
@@ -1217,8 +1575,12 @@
                     <h2>Ready to Make a Difference?</h2>
                     <p>Join thousands of donors and volunteers creating positive change every day.</p>
                     <div class="cta-buttons">
-                        <a href="#" class="btn-primary" onclick="showPage('donate')">Donate Now</a>
-                        <a href="#" class="btn-secondary" onclick="showPage('volunteer')">Become a Volunteer</a>
+                        <a href="#" class="btn-primary" onclick="showPage('donate')">
+                            <i class="fas fa-heart"></i> Donate Now
+                        </a>
+                        <a href="#" class="btn-secondary" onclick="showPage('volunteer')">
+                            <i class="fas fa-handshake"></i> Become a Volunteer
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1227,7 +1589,6 @@
 
     <!-- ==================== ABOUT PAGE ==================== -->
     <div id="about" class="page hidden">
-        <!-- Page Hero -->
         <div class="page-hero">
             <h1>About Us</h1>
             <p>Our story, mission, and vision for a better world</p>
@@ -1236,7 +1597,7 @@
         <section>
             <div class="container">
                 <div class="form-container fade-in" style="margin-bottom: 2rem;">
-                    <h2 style="margin-bottom: 1rem; font-size: 1.75rem;">Our Story</h2>
+                    <h2 style="margin-bottom: 1rem; font-size: 1.75rem;"><i class="fas fa-book-open" style="color: var(--primary); margin-right: 0.5rem;"></i>Our Story</h2>
                     <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1rem;">
                         Founded in 2015, Hope Horizon began as a small community kitchen serving 50 meals a day. Today, we've grown into a comprehensive nonprofit impacting thousands across multiple states.
                     </p>
@@ -1247,24 +1608,24 @@
 
                 <div class="features-grid" style="margin-bottom: 2rem;">
                     <div class="feature-card fade-in">
-                        <h3>🌟 Vision</h3>
+                        <h3><i class="fas fa-star" style="color: var(--primary); margin-right: 0.5rem;"></i>Vision</h3>
                         <p style="color: var(--text-muted);">A world where everyone has access to necessities and opportunities to reach their full potential.</p>
                     </div>
                     <div class="feature-card fade-in">
-                        <h3>💎 Values</h3>
+                        <h3><i class="fas fa-gem" style="color: var(--primary); margin-right: 0.5rem;"></i>Values</h3>
                         <p style="color: var(--text-muted);">Compassion, integrity, innovation, and community-driven solutions.</p>
                     </div>
                     <div class="feature-card fade-in">
-                        <h3>🚀 Strategy</h3>
+                        <h3><i class="fas fa-rocket" style="color: var(--primary); margin-right: 0.5rem;"></i>Strategy</h3>
                         <p style="color: var(--text-muted);">Holistic interventions addressing root causes, creating sustainable impact.</p>
                     </div>
                 </div>
 
                 <div class="form-container fade-in text-center">
-                    <h3 style="margin-bottom: 1rem;">Legal Information</h3>
+                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-certificate" style="color: var(--primary); margin-right: 0.5rem;"></i>Legal Information</h3>
                     <p style="color: var(--text-muted); margin-bottom: 1rem;">Registered 501(c)(3) Nonprofit Organization</p>
-                    <div class="ein-badge">EIN: 82-9876543</div>
-                    <p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.875rem;">All donations are tax-deductible</p>
+                    <div class="ein-badge"><i class="fas fa-hashtag" style="margin-right: 0.5rem;"></i>EIN: 82-9876543</div>
+                    <p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.875rem;"><i class="fas fa-check-circle" style="color: var(--primary); margin-right: 0.5rem;"></i>All donations are tax-deductible</p>
                 </div>
             </div>
         </section>
@@ -1281,35 +1642,35 @@
             <div class="container">
                 <div class="features-grid">
                     <div class="feature-card fade-in">
-                        <div class="feature-icon">🍲</div>
+                        <div class="feature-icon"><i class="fas fa-utensils"></i></div>
                         <h3>Community Kitchen</h3>
                         <p style="color: var(--text-muted);">5,000+ meals daily across 25 locations. Mobile food banks for remote areas.</p>
                         <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--glass-border); font-size: 0.875rem; color: var(--primary);">
-                            50K meals/month • 25 locations
+                            <i class="fas fa-chart-bar" style="margin-right: 0.5rem;"></i>50K meals/month • 25 locations
                         </div>
                     </div>
                     <div class="feature-card fade-in">
-                        <div class="feature-icon">🎓</div>
+                        <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
                         <h3>Education First</h3>
                         <p style="color: var(--text-muted);">Scholarships, tutoring, and STEM programs. 95% high school graduation rate.</p>
                     </div>
                     <div class="feature-card fade-in">
-                        <div class="feature-icon">🏥</div>
+                        <div class="feature-icon"><i class="fas fa-hospital"></i></div>
                         <h3>Health Camps</h3>
                         <p style="color: var(--text-muted);">Free medical camps with checkups, vaccines, and health education.</p>
                     </div>
                     <div class="feature-card fade-in">
-                        <div class="feature-icon">🏗️</div>
+                        <div class="feature-icon"><i class="fas fa-building"></i></div>
                         <h3>Housing First</h3>
                         <p style="color: var(--text-muted);">Rapid rehousing and emergency shelter. 1,200+ families housed.</p>
                     </div>
                     <div class="feature-card fade-in">
-                        <div class="feature-icon">💻</div>
+                        <div class="feature-icon"><i class="fas fa-laptop-code"></i></div>
                         <h3>Digital Literacy</h3>
                         <p style="color: var(--text-muted);">Computer training and internet access bridging the digital divide.</p>
                     </div>
                     <div class="feature-card fade-in">
-                        <div class="feature-icon">👶</div>
+                        <div class="feature-icon"><i class="fas fa-child"></i></div>
                         <h3>Child Care</h3>
                         <p style="color: var(--text-muted);">After-school programs and daycare for working families.</p>
                     </div>
@@ -1347,14 +1708,14 @@
                 </div>
 
                 <div class="form-container fade-in">
-                    <h3 style="text-align: center; margin-bottom: 1.5rem;">Success Stories</h3>
+                    <h3 style="text-align: center; margin-bottom: 1.5rem;"><i class="fas fa-quote-left" style="color: var(--primary); margin-right: 0.5rem;"></i>Success Stories</h3>
                     <div style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 16px; margin-bottom: 1rem;">
                         <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1rem; line-height: 1.6;">"Hope Horizon gave us dignity and a path forward. Today I have a job and my own apartment."</p>
-                        <p style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">- Sarah M., Program Graduate</p>
+                        <p style="color: var(--primary); font-weight: 600; font-size: 0.9rem;"><i class="fas fa-user" style="margin-right: 0.5rem;"></i>- Sarah M., Program Graduate</p>
                     </div>
                     <div style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 16px;">
                         <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1rem; line-height: 1.6;">"The education program changed my daughter's life. She's now the first in our family to attend college."</p>
-                        <p style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">- James T., Parent</p>
+                        <p style="color: var(--primary); font-weight: 600; font-size: 0.9rem;"><i class="fas fa-user" style="margin-right: 0.5rem;"></i>- James T., Parent</p>
                     </div>
                 </div>
             </div>
@@ -1371,24 +1732,24 @@
         <section>
             <div class="container">
                 <div class="form-container fade-in" style="margin-bottom: 2rem;">
-                    <h3 style="margin-bottom: 1.5rem;">Why Volunteer?</h3>
+                    <h3 style="margin-bottom: 1.5rem;"><i class="fas fa-question-circle" style="color: var(--primary); margin-right: 0.5rem;"></i>Why Volunteer?</h3>
                     <div style="display: grid; gap: 1rem;">
                         <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 12px;">
-                            <span style="font-size: 1.5rem;">🤝</span>
+                            <span style="font-size: 1.5rem; color: var(--primary);"><i class="fas fa-handshake"></i></span>
                             <div>
                                 <h4 style="margin-bottom: 0.25rem;">Make Real Impact</h4>
                                 <p style="color: var(--text-muted); font-size: 0.9rem;">See the difference you make daily</p>
                             </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 12px;">
-                            <span style="font-size: 1.5rem;">📚</span>
+                            <span style="font-size: 1.5rem; color: var(--primary);"><i class="fas fa-book"></i></span>
                             <div>
                                 <h4 style="margin-bottom: 0.25rem;">Learn Skills</h4>
                                 <p style="color: var(--text-muted); font-size: 0.9rem;">Gain valuable experience</p>
                             </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 12px;">
-                            <span style="font-size: 1.5rem;">🌟</span>
+                            <span style="font-size: 1.5rem; color: var(--primary);"><i class="fas fa-star"></i></span>
                             <div>
                                 <h4 style="margin-bottom: 0.25rem;">Join Community</h4>
                                 <p style="color: var(--text-muted); font-size: 0.9rem;">Connect with like-minded people</p>
@@ -1398,22 +1759,22 @@
                 </div>
 
                 <div class="form-container fade-in">
-                    <h3 style="margin-bottom: 1.5rem; text-align: center;">Apply Now</h3>
+                    <h3 style="margin-bottom: 1.5rem; text-align: center;"><i class="fas fa-file-alt" style="color: var(--primary); margin-right: 0.5rem;"></i>Apply Now</h3>
                     <form onsubmit="handleSubmit(event, 'volunteer')">
                         <div class="form-group">
-                            <label>Full Name *</label>
+                            <label><i class="fas fa-user" style="margin-right: 0.5rem;"></i>Full Name *</label>
                             <input type="text" required placeholder="John Doe">
                         </div>
                         <div class="form-group">
-                            <label>Email *</label>
+                            <label><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i>Email *</label>
                             <input type="email" required placeholder="john@example.com">
                         </div>
                         <div class="form-group">
-                            <label>Phone *</label>
+                            <label><i class="fas fa-phone" style="margin-right: 0.5rem;"></i>Phone *</label>
                             <input type="tel" required placeholder="(555) 123-4567">
                         </div>
                         <div class="form-group">
-                            <label>Interest Area</label>
+                            <label><i class="fas fa-bullseye" style="margin-right: 0.5rem;"></i>Interest Area</label>
                             <select>
                                 <option>Food Distribution</option>
                                 <option>Tutoring</option>
@@ -1422,10 +1783,12 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Message</label>
+                            <label><i class="fas fa-comment" style="margin-right: 0.5rem;"></i>Message</label>
                             <textarea placeholder="Tell us about yourself..."></textarea>
                         </div>
-                        <button type="submit" class="btn-primary" style="width: 100%;">Submit Application</button>
+                        <button type="submit" class="btn-primary" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Submit Application
+                        </button>
                     </form>
                 </div>
             </div>
@@ -1462,7 +1825,7 @@
 
                 <div class="form-container fade-in">
                     <div class="form-group">
-                        <label>Custom Amount</label>
+                        <label><i class="fas fa-dollar-sign" style="margin-right: 0.5rem;"></i>Custom Amount</label>
                         <div style="position: relative;">
                             <span style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);">$</span>
                             <input type="number" placeholder="Enter amount" style="padding-left: 2rem;" onfocus="clearSelection()">
@@ -1470,13 +1833,13 @@
                     </div>
                     
                     <a href="https://paypal.com/donate" target="_blank" class="btn-primary" style="width: 100%; margin: 2rem 0; display: flex; justify-content: center;">
-                        ♥ Donate with PayPal
+                        <i class="fab fa-paypal" style="margin-right: 0.5rem;"></i> Donate with PayPal
                     </a>
 
                     <div class="qr-section">
-                        <h4 style="margin-bottom: 0.5rem;">Scan to Donate</h4>
-                        <div class="qr-code">QR</div>
-                        <p style="color: var(--text-muted); font-size: 0.875rem;">Text "HOPE" to 41444</p>
+                        <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-qrcode" style="margin-right: 0.5rem;"></i>Scan to Donate</h4>
+                        <div class="qr-code"><i class="fas fa-qrcode" style="font-size: 4rem;"></i></div>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><i class="fas fa-mobile-alt" style="margin-right: 0.5rem;"></i>Text "HOPE" to 41444</p>
                     </div>
                 </div>
             </div>
@@ -1495,21 +1858,27 @@
                 <div class="form-container fade-in" style="margin-bottom: 2rem;">
                     <div style="display: grid; gap: 1.5rem;">
                         <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 48px; height: 48px; background: var(--gradient-1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">📧</div>
+                            <div style="width: 48px; height: 48px; background: var(--gradient-1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                                <i class="fas fa-envelope"></i>
+                            </div>
                             <div>
                                 <h4 style="margin-bottom: 0.25rem;">Email</h4>
                                 <p style="color: var(--text-muted); font-size: 0.9rem;">info@hopehorizon.org</p>
                             </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 48px; height: 48px; background: var(--gradient-1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">📞</div>
+                            <div style="width: 48px; height: 48px; background: var(--gradient-1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                                <i class="fas fa-phone"></i>
+                            </div>
                             <div>
                                 <h4 style="margin-bottom: 0.25rem;">Phone</h4>
                                 <p style="color: var(--text-muted); font-size: 0.9rem;">(555) 123-HELP</p>
                             </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 48px; height: 48px; background: var(--gradient-1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">📍</div>
+                            <div style="width: 48px; height: 48px; background: var(--gradient-1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
                             <div>
                                 <h4 style="margin-bottom: 0.25rem;">Address</h4>
                                 <p style="color: var(--text-muted); font-size: 0.9rem;">123 Community Drive<br>New York, NY 10001</p>
@@ -1519,18 +1888,18 @@
                 </div>
 
                 <div class="form-container fade-in">
-                    <h3 style="margin-bottom: 1.5rem;">Send Message</h3>
+                    <h3 style="margin-bottom: 1.5rem;"><i class="fas fa-paper-plane" style="color: var(--primary); margin-right: 0.5rem;"></i>Send Message</h3>
                     <form onsubmit="handleSubmit(event, 'contact')">
                         <div class="form-group">
-                            <label>Name *</label>
+                            <label><i class="fas fa-user" style="margin-right: 0.5rem;"></i>Name *</label>
                             <input type="text" required>
                         </div>
                         <div class="form-group">
-                            <label>Email *</label>
+                            <label><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i>Email *</label>
                             <input type="email" required>
                         </div>
                         <div class="form-group">
-                            <label>Subject</label>
+                            <label><i class="fas fa-tag" style="margin-right: 0.5rem;"></i>Subject</label>
                             <select>
                                 <option>General Inquiry</option>
                                 <option>Donation Question</option>
@@ -1539,10 +1908,12 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Message *</label>
+                            <label><i class="fas fa-comment" style="margin-right: 0.5rem;"></i>Message *</label>
                             <textarea required rows="4"></textarea>
                         </div>
-                        <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
+                        <button type="submit" class="btn-primary" style="width: 100%;">
+                            <i class="fas fa-send"></i> Send Message
+                        </button>
                     </form>
                 </div>
             </div>
@@ -1553,22 +1924,22 @@
     <nav class="mobile-nav">
         <div class="mobile-nav-items">
             <a href="#" class="mobile-nav-item active" onclick="showPage('home')" data-nav="home">
-                <span>🏠</span>
+                <i class="fas fa-home"></i>
                 <span>Home</span>
             </a>
             <a href="#" class="mobile-nav-item" onclick="showPage('programs')" data-nav="programs">
-                <span>🎯</span>
+                <i class="fas fa-bullseye"></i>
                 <span>Programs</span>
             </a>
             <a href="#" class="mobile-nav-item mobile-donate-btn" onclick="showPage('donate')" data-nav="donate">
-                <span>♥</span>
+                <i class="fas fa-heart"></i>
             </a>
             <a href="#" class="mobile-nav-item" onclick="showPage('impact')" data-nav="impact">
-                <span>📊</span>
+                <i class="fas fa-chart-line"></i>
                 <span>Impact</span>
             </a>
             <a href="#" class="mobile-nav-item" onclick="toggleMobileMenu()" data-nav="menu">
-                <span>☰</span>
+                <i class="fas fa-bars"></i>
                 <span>Menu</span>
             </a>
         </div>
@@ -1578,13 +1949,13 @@
     <footer>
         <div class="container">
             <div class="footer-brand">
-                <h3>Hope Horizon</h3>
+                <h3><i class="fas fa-sun" style="margin-right: 0.5rem;"></i>Hope Horizon</h3>
                 <p>Empowering communities through compassion and action.</p>
                 <div class="social-links">
-                    <a href="#">f</a>
-                    <a href="#">t</a>
-                    <a href="#">i</a>
-                    <a href="#">in</a>
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
             
@@ -1592,24 +1963,24 @@
                 <div class="footer-links">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="#" onclick="showPage('about')">About</a></li>
-                        <li><a href="#" onclick="showPage('programs')">Programs</a></li>
-                        <li><a href="#" onclick="showPage('volunteer')">Volunteer</a></li>
+                        <li><a href="#" onclick="showPage('about')"><i class="fas fa-chevron-right" style="font-size: 0.75rem; margin-right: 0.5rem;"></i>About</a></li>
+                        <li><a href="#" onclick="showPage('programs')"><i class="fas fa-chevron-right" style="font-size: 0.75rem; margin-right: 0.5rem;"></i>Programs</a></li>
+                        <li><a href="#" onclick="showPage('volunteer')"><i class="fas fa-chevron-right" style="font-size: 0.75rem; margin-right: 0.5rem;"></i>Volunteer</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
                     <h4>Legal</h4>
                     <ul>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Terms</a></li>
-                        <li><a href="#">EIN: 82-9876543</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right" style="font-size: 0.75rem; margin-right: 0.5rem;"></i>Privacy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right" style="font-size: 0.75rem; margin-right: 0.5rem;"></i>Terms</a></li>
+                        <li><a href="#"><i class="fas fa-hashtag" style="margin-right: 0.5rem;"></i>EIN: 82-9876543</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2024 Hope Horizon. All rights reserved.</p>
-                <p style="margin-top: 0.5rem;">Made with ♥ for humanity</p>
+                <p><i class="far fa-copyright" style="margin-right: 0.5rem;"></i>2024 Hope Horizon. All rights reserved.</p>
+                <p style="margin-top: 0.5rem;"><i class="fas fa-heart" style="color: var(--secondary); margin-right: 0.5rem;"></i>Made with love for humanity</p>
             </div>
         </div>
     </footer>
